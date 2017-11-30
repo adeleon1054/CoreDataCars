@@ -67,11 +67,43 @@
 }
 
 - (IBAction)btnFindRecord:(UIButton *)sender {
+    /*
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Vehicle"];
     NSError *error = nil;
     NSArray *objects = [context executeFetchRequest:request error:&error];
     
     Vehicule *myCar;
+    
+    if ([objects count]==0){
+        NSLog(@"Error fetching Vehicle objects: %@\n%@", [error localizedDescription], [error userInfo]);
+        _lblStatus.text = @"No Matches";
+    }
+    else
+    {
+        myCar = objects[0];
+        _txtMake.text = [myCar valueForKey:@"make"];
+        _txtModel.text = [myCar valueForKey:@"model"];
+        _txtMPG.text = [[myCar valueForKey:@"mpg"]stringValue];
+        _txtYear.text = [[myCar valueForKey:@"year"]stringValue];
+        
+        _lblStatus.text = [NSString stringWithFormat:@"%lu Match(es) found.",(unsigned long)[objects count]];
+        
+    }
+     */
+    
+    NSEntityDescription* entityDesc = [NSEntityDescription entityForName:@"Vehicule" inManagedObjectContext:context];
+    NSFetchRequest *request = [[NSFetchRequest alloc]init];
+    [request setEntity:entityDesc];
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(make = %@)", _txtMake.text];
+    [request setPredicate:pred];
+    
+    Vehicule *myCar;
+    
+    NSError *error = nil;
+    [context save:&error];
+    NSArray *objects = [context executeFetchRequest:request error:&error];
+    
     
     if ([objects count]==0){
         NSLog(@"Error fetching Vehicle objects: %@\n%@", [error localizedDescription], [error userInfo]);
