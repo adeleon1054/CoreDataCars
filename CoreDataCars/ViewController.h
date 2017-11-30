@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @interface ViewController : UIViewController
-
+{
+    AppDelegate* appDelegate;
+    NSManagedObjectContext* context;
+}
 
 @end
 
